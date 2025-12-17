@@ -12,7 +12,7 @@ jobs:
     steps:
     # SETUP
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -35,38 +35,41 @@ jobs:
         export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
         mlflow run MLProject --env-manager local
 
-    # GET LATEST RUN ID
+    # GET LATEST RUN ID (VALID MODEL ONLY)
     - name: Get latest MLflow run id
       run: |
-        echo "RUN_ID=$(ls -td mlruns/0/* | head -1 | xargs basename)" >> $GITHUB_ENV
+        RUN_ID=$(ls -td mlruns/0/*/artifacts/model | head -1 | awk -F'/' '{print $(NF-2)}')
+        echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
 
-    # SAVE ARTIFACT (SKILLED)
+    # SAVE ARTIFACT
     - name: Upload MLflow Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: mlflow-artifacts
         path: mlruns/
 
-    # BUILD DOCKER IMAGE (ADVANCE)
+    # BUILD DOCKER IMAGE (FIXED)
     - name: Build Docker Model
       run: |
         mlflow models build-docker \
-          -m mlruns/0/${{ env.RUN_ID }}/artifacts/model \
-          -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
+          -m runs:/${{ env.RUN_ID }}/model \
+          -n ${{ anjuans1404 }}/heart-disease-mlflow
 
-    # DOCKER HUB
+    # DOCKER HUB LOGIN
     - name: Log in to Docker Hub
       run: |
-        echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
-          -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        echo "${{ dckr_pat_oTbV1-wcU7ELO76H-0Wh1xeVwpo }}" | docker login \
+          -u ${{ anjuans1404 }} --password-stdin
 
+    # TAG IMAGE
     - name: Tag Docker Image
       run: |
         docker tag \
-          ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow:latest \
-          ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow:${{ env.RUN_ID }}
+          ${{ anjuans1404 }}/heart-disease-mlflow:latest \
+          ${{ anjuans1404 }}/heart-disease-mlflow:${{ env.RUN_ID }}
 
+    # PUSH IMAGE
     - name: Push Docker Image
       run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow:latest
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow:${{ env.RUN_ID }}
+        docker push ${{ anjuans1404 }}/heart-disease-mlflow:latest
+        docker push ${{ anjuans1404 }}/heart-disease-mlflow:${{ env.RUN_ID }}
