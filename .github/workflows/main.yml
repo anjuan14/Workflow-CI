@@ -46,18 +46,19 @@ jobs:
     
 
       # GET LATEST RUN ID
-      - name: Get latest MLflow run id
+      - name: Get latest MLflow model path
         run: |
-          RUN_ID=$(find mlruns -type f -name MLmodel \
-            | sort -r | head -1 | awk -F'/' '{print $(NF-3)}')
+          MODEL_PATH=$(find mlruns -type f -name MLmodel \
+            | sort -r | head -1 | sed 's|/MLmodel||')
 
-          if [ -z "$RUN_ID" ]; then
-            echo "RUN_ID not found"
+          if [ -z "$MODEL_PATH" ]; then
+            echo "MODEL_PATH not found"
             exit 1
           fi
 
-          echo "RUN_ID=$RUN_ID"
-          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "MODEL_PATH=$MODEL_PATH"
+          echo "MODEL_PATH=$MODEL_PATH" >> $GITHUB_ENV
+
 
 
       # SAVE ARTIFACT
@@ -70,9 +71,6 @@ jobs:
       # BUILD DOCKER IMAGE
       - name: Build Docker Model
         run: |
-             export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
-             export MLFLOW_REGISTRY_URI=file:${{ github.workspace }}/mlruns
-
               mlflow models build-docker \
                 -m runs:/${{ env.RUN_ID }}/artifacts/model \
                 -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
