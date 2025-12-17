@@ -83,6 +83,11 @@ jobs:
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
             -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
+      - name: Verify Docker login
+        run: |
+          docker info | grep Username || echo "Not logged in"
+
+
       # TAG IMAGE
       - name: Tag Docker Image
         run: |
