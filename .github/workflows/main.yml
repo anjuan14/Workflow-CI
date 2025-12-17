@@ -56,7 +56,6 @@ jobs:
             exit 1
           fi
 
-          echo "MODEL_PATH=$MODEL_PATH"
           echo "MODEL_PATH=$MODEL_PATH" >> $GITHUB_ENV
 
 
@@ -71,9 +70,12 @@ jobs:
       # BUILD DOCKER IMAGE
       - name: Build Docker Model
         run: |
-              mlflow models build-docker \
-                -m runs:/${{ env.RUN_ID }}/artifacts/model \
-                -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
+            echo "MODEL_PATH=${{ env.MODEL_PATH }}"
+            ls -la ${{ env.MODEL_PATH }}
+
+            mlflow models build-docker \
+              -m file:${{ env.MODEL_PATH }} \
+              -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
 
       # DOCKER HUB LOGIN
       - name: Log in to Docker Hub
