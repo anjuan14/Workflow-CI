@@ -1,4 +1,4 @@
-name: Heart Disease
+name: heart-disease
 
 python_env: python_env.yaml
 
