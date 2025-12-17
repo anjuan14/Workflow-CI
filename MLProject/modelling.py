@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+
 # DAGSHUB + MLFLOW INIT
 # dagshub.init(
 #     repo_owner="anjuan14",
@@ -29,6 +30,10 @@ import seaborn as sns
 # mlflow.set_tracking_uri("http://127.0.0.1:5000")
 # mlflow.set_experiment("Heart Disease Modelling - Advance")
 
+mlflow.set_tracking_uri(
+    f"file:{os.path.join(os.getcwd(), 'mlruns')}"
+)
+mlflow.set_experiment("default")
 
 # LOAD DATA
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
