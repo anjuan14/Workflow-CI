@@ -71,8 +71,8 @@ jobs:
       - name: Build Docker Model
         run: |
           mlflow models build-docker \
-            -m runs:/${{ env.RUN_ID }}/model \
-            -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
+           -m runs:/${{ env.RUN_ID }}/artifacts/model \
+           -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
 
       # DOCKER HUB LOGIN
       - name: Log in to Docker Hub
