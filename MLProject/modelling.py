@@ -95,15 +95,9 @@ with mlflow.start_run():
     mlflow.log_metric("recall", rec)
     mlflow.log_metric("f1_score", f1)
 
-    # SAVE MODEL
-    joblib.dump(best_model, "best_model.pkl")
-    mlflow.log_artifact("best_model.pkl")
-    
-    #MAKING MODEL FOLDER 
     mlflow.sklearn.log_model(
         sk_model=best_model,
-        artifact_path="model",
-        registered_model_name="HeartDiseaseRF"
+        artifact_path="model"
     )
 
     # CONFUSION MATRIX
@@ -113,7 +107,6 @@ with mlflow.start_run():
     plt.tight_layout()
     plt.savefig("confusion_matrix.png")
     plt.close()
-
     mlflow.log_artifact("confusion_matrix.png")
 
     # FEATURE SUMMARY
@@ -122,6 +115,7 @@ with mlflow.start_run():
 
     print("ADVANCE RUN SUCCESS")
     print("F1:", f1)
+
 
 
 
