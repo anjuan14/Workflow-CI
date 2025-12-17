@@ -37,7 +37,7 @@ jobs:
 
     # GET LATEST RUN ID (VALID MODEL ONLY)
     - name: Get latest MLflow run id
-        run: |
+      run: |
           if [ ! -d "mlruns/0" ]; then
             echo "mlruns folder not found"
             exit 1
