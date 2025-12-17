@@ -36,16 +36,16 @@ jobs:
         python MLProject/tempCodeRunnerFile.py
 
     # GET LATEST RUN ID (VALID MODEL ONLY)
-   - name: Get latest MLflow run id
-      run: |
-        RUN_ID=$(find mlruns -type d -path "*/artifacts/model" | sort -r | head -1 | awk -F'/' '{print $(NF-2)}')
+     - name: Get latest MLflow run id
+        run: |
+          RUN_ID=$(find mlruns -type d -path "*/artifacts/model" | sort -r | head -1 | awk -F'/' '{print $(NF-2)}')
 
-        if [ -z "$RUN_ID" ]; then
-          echo "RUN_ID not found"
-          exit 1
-        fi
+          if [ -z "$RUN_ID" ]; then
+            echo "RUN_ID not found"
+            exit 1
+          fi
 
-        echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
 
 
 
