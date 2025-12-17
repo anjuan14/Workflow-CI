@@ -41,12 +41,13 @@ jobs:
         echo "RUN_ID=$(ls -td mlruns/0/* | head -1 | xargs basename)" >> $GITHUB_ENV
 
     # SAVE ARTIFACT (SKILLED)
-   - name: Upload MLflow Artifacts
-     uses: actions/upload-artifact@v4
-     with:
+    - name: Upload MLflow Artifacts
+      uses: actions/upload-artifact@v4
+      with:
         name: mlflow-artifacts
         path: mlruns/
-    # BUILD DOCKER IMAGE 
+
+    # BUILD DOCKER IMAGE (ADVANCE)
     - name: Build Docker Model
       run: |
         mlflow models build-docker \
@@ -69,4 +70,3 @@ jobs:
       run: |
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow:${{ env.RUN_ID }}
-
