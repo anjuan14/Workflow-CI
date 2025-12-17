@@ -70,9 +70,12 @@ jobs:
       # BUILD DOCKER IMAGE
       - name: Build Docker Model
         run: |
-          mlflow models build-docker \
-           -m runs:/${{ env.RUN_ID }}/artifacts/model \
-           -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
+             export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
+             export MLFLOW_REGISTRY_URI=file:${{ github.workspace }}/mlruns
+
+              mlflow models build-docker \
+                -m runs:/${{ env.RUN_ID }}/artifacts/model \
+                -n ${{ secrets.DOCKERHUB_USERNAME }}/heart-disease-mlflow
 
       # DOCKER HUB LOGIN
       - name: Log in to Docker Hub
