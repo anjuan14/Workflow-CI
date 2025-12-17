@@ -53,23 +53,24 @@ jobs:
       run: |
         mlflow models build-docker \
           -m runs:/${{ env.RUN_ID }}/model \
-          -n ${{ anjuans1404 }}/heart-disease-mlflow
+          -n ${{ secrets.DOCKERHUB_USERNAME}}/heart-disease-mlflow
 
     # DOCKER HUB LOGIN
     - name: Log in to Docker Hub
       run: |
-        echo "${{ dckr_pat_oTbV1-wcU7ELO76H-0Wh1xeVwpo }}" | docker login \
-          -u ${{ anjuans1404 }} --password-stdin
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
+          -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
 
     # TAG IMAGE
     - name: Tag Docker Image
       run: |
         docker tag \
-          ${{ anjuans1404 }}/heart-disease-mlflow:latest \
-          ${{ anjuans1404 }}/heart-disease-mlflow:${{ env.RUN_ID }}
+          ${{ secrets.DOCKERHUB_USERNAME}}/heart-disease-mlflow:latest \
+          ${{ secrets.DOCKERHUB_USERNAME}}/heart-disease-mlflow:${{ env.RUN_ID }}
 
     # PUSH IMAGE
     - name: Push Docker Image
       run: |
-        docker push ${{ anjuans1404 }}/heart-disease-mlflow:latest
-        docker push ${{ anjuans1404 }}/heart-disease-mlflow:${{ env.RUN_ID }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME}}/heart-disease-mlflow:latest
+        docker push ${{ secrets.DOCKERHUB_USERNAME}}/heart-disease-mlflow:${{ env.RUN_ID }}
