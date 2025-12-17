@@ -35,6 +35,16 @@ jobs:
           export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
           python MLProject/tempCodeRunnerFile.py
 
+      - name: PROVE where MLflow writes
+        run: |
+          echo "=== WORKSPACE ==="
+          ls -la
+          echo "=== mlruns ==="
+          ls -la mlruns || echo "mlruns NOT FOUND"
+          echo "=== ~/.mlflow ==="
+          ls -la ~/.mlflow || echo "~/.mlflow NOT FOUND"
+    
+
       # GET LATEST RUN ID
       - name: Get latest MLflow run id
         run: |
