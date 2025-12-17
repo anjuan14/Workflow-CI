@@ -56,7 +56,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # MODEL & TUNING
 param_grid = {
     "n_estimators": [100, 200],
-    "max_depth": [10, None],
+    "max_depth": [10, 0],
     "min_samples_split": [2, 5]
 }
 
@@ -97,8 +97,7 @@ with mlflow.start_run():
 
     mlflow.sklearn.log_model(
         sk_model=best_model,
-        artifact_path="model",
-        input_example=X_train.iloc[:5]
+        artifact_path="model"
     )
 
     # CONFUSION MATRIX
