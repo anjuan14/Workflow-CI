@@ -30,6 +30,8 @@ import seaborn as sns
 # mlflow.set_tracking_uri("http://127.0.0.1:5000")
 # mlflow.set_experiment("Heart Disease Modelling - Advance")
 
+#test
+
 mlflow.set_tracking_uri(
     f"file:{os.path.join(os.getcwd(), 'mlruns')}"
 )
