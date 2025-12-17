@@ -92,7 +92,7 @@ jobs:
           docker images | grep heart-disease || echo "IMAGE NOT FOUND"
 
 
-     - name: Tag Docker Image
+      - name: Tag Docker Image
         run: |
           docker tag \
             anjuans1404/heart-disease-mlflow:latest \
