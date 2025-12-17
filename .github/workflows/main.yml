@@ -48,14 +48,17 @@ jobs:
       # GET LATEST RUN ID
       - name: Get latest MLflow run id
         run: |
-          RUN_ID=$(find mlruns -type d -path "*/artifacts/model" | sort -r | head -1 | awk -F'/' '{print $(NF-2)}')
+          RUN_ID=$(find mlruns -type f -name MLmodel \
+            | sort -r | head -1 | awk -F'/' '{print $(NF-3)}')
 
           if [ -z "$RUN_ID" ]; then
             echo "RUN_ID not found"
             exit 1
           fi
 
+          echo "RUN_ID=$RUN_ID"
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+
 
       # SAVE ARTIFACT
       - name: Upload MLflow Artifacts
