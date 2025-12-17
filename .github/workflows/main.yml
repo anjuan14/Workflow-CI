@@ -32,7 +32,7 @@ jobs:
     # RUN MLFLOW PROJECT
     - name: Run MLflow Project
       run: |
-        export MLFLOW_TRACKING_URI=file:./mlruns
+        export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
         mlflow run MLProject --env-manager local
 
     # GET LATEST RUN ID
