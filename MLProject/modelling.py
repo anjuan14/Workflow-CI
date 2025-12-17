@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import dagshub
 import mlflow
 import mlflow.sklearn
 
