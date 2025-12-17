@@ -41,13 +41,11 @@ jobs:
         echo "RUN_ID=$(ls -td mlruns/0/* | head -1 | xargs basename)" >> $GITHUB_ENV
 
     # SAVE ARTIFACT (SKILLED)
-    - name: Upload to Google Drive
-      run: |
-        echo "${{ secrets.GDRIVE_CREDENTIAL }}" > gdrive.json
-        gdown --service-account gdrive.json \
-          --folder "${{ secrets.GDRIVE_FOLDER_ID }}" \
-          mlruns/0/${{ env.RUN_ID }}/artifacts
-
+   - name: Upload MLflow Artifacts
+     uses: actions/upload-artifact@v4
+     with:
+        name: mlflow-artifacts
+        path: mlruns/
     # BUILD DOCKER IMAGE 
     - name: Build Docker Model
       run: |
