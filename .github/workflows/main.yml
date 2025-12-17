@@ -30,8 +30,8 @@ jobs:
         pip install mlflow scikit-learn pandas numpy matplotlib seaborn joblib gdown
 
     # RUN MLFLOW PROJECT
-   - name: Run training script
-     run: |
+    - name: Run training script
+      run: |
         export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
         python MLProject/tempCodeRunnerFile.py
 
