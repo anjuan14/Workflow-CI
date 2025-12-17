@@ -57,7 +57,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # MODEL & TUNING
 param_grid = {
     "n_estimators": [100, 200],
-    "max_depth": [10, None],
+    "max_depth": [10, 0],
     "min_samples_split": [2, 5]
 }
 
