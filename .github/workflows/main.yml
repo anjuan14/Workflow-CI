@@ -38,20 +38,15 @@ jobs:
     # GET LATEST RUN ID (VALID MODEL ONLY)
     - name: Get latest MLflow run id
       run: |
-          if [ ! -d "mlruns/0" ]; then
-            echo "mlruns folder not found"
-            exit 1
-          fi
+        RUN_ID=$(find mlruns -type d -path "*/artifacts/model" \
+          | sort -r | head -1 | awk -F'/' '{print $(NF-2)}')
 
-          RUN_ID=$(ls -td mlruns/0/*/artifacts/model 2>/dev/null | head -1 | awk -F'/' '{print $(NF-2)}')
+        if [ -z "$RUN_ID" ]; then
+          echo "RUN_ID not found"
+          exit 1
+        fi
 
-          if [ -z "$RUN_ID" ]; then
-            echo "RUN_ID not found (model artifact missing)"
-            exit 1
-          fi
-
-          echo "RUN_ID=$RUN_ID"
-          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+        echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
 
 
     # SAVE ARTIFACT
