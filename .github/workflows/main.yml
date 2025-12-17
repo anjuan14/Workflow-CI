@@ -30,10 +30,10 @@ jobs:
         pip install mlflow scikit-learn pandas numpy matplotlib seaborn joblib gdown
 
     # RUN MLFLOW PROJECT
-    - name: Run MLflow Project
-      run: |
+   - name: Run training script
+     run: |
         export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
-        mlflow run MLProject --env-manager local
+        python MLProject/tempCodeRunnerFile.py
 
     # GET LATEST RUN ID (VALID MODEL ONLY)
     - name: Get latest MLflow run id
