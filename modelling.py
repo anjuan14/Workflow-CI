@@ -48,9 +48,7 @@ y = df["Heart Disease Status"]
 X = df.drop(columns=["Heart Disease Status", "Age_Bin"])
 
 
-# ======================
 # TRAIN TEST SPLIT
-# ======================
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
