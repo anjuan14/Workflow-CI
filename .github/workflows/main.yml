@@ -30,10 +30,12 @@ jobs:
           pip install mlflow scikit-learn pandas numpy matplotlib seaborn joblib gdown
 
       # RUN TRAINING
-      - name: Run training script
+      - name: Run retraining using MLflow
         run: |
           export MLFLOW_TRACKING_URI=file:${{ github.workspace }}/mlruns
-          python MLProject/tempCodeRunnerFile.py
+          mlflow run . \
+            --env-manager=local \
+            --experiment-name "CI-Retraining-Heart-Disease"
 
       - name: PROVE where MLflow writes
         run: |
