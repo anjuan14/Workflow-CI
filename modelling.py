@@ -35,7 +35,6 @@ import seaborn as sns
 mlflow.set_tracking_uri(
     f"file:{os.path.join(os.getcwd(), 'mlruns')}"
 )
-mlflow.set_experiment("default")
 
 # LOAD DATA
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
